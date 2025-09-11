@@ -39,6 +39,14 @@ android {
     }
 }
 
+// Add this gradle task outside the Android Block
+tasks.register("printVersionCodeAndName") {
+    doLast {
+        println("VERSION_CODE=${android.defaultConfig.versionCode}")
+        println("VERSION_NAME=${android.defaultConfig.versionName}")
+    }
+}
+
 flutter {
     source = "../.."
 }
