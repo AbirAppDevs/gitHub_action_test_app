@@ -1,6 +1,13 @@
 name: Deploy EchoJournal
 on:
-  workflow_dispatch: null
+  pull_request:
+    branches:
+      - playstore
+  push:
+    branches:
+      - playstore
+#on:
+#  workflow_dispatch: null
 jobs:
   build:
     name: Job 1 - Build Signed AAB
