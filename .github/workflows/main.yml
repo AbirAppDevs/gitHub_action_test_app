@@ -57,8 +57,8 @@ jobs:
           cp build/app/outputs/flutter-apk/app-arm64-v8a-release.apk \
              "${APP_NAME}-${NEW_VERSION}/apk/${APP_NAME}-arm64-v8a.apk"
 
-          # copy full project (as it exists now)
-          rsync -av --exclude '.git' --exclude 'build' --exclude '.dart_tool' --exclude '.gra
+          # copy full project (exclude build and tool folders)
+          rsync -av --exclude '.git' --exclude 'build' --exclude '.dart_tool' --exclude '.gradle' ./ \
              "${APP_NAME}-${NEW_VERSION}/${APP_NAME}-new-${NEW_VERSION}/"
 
           # copy only updated files: lib & pubspec.yaml
@@ -67,6 +67,7 @@ jobs:
              "${APP_NAME}-${NEW_VERSION}/${APP_NAME}-only-updated-files-${PREVIOUS_VERSION}-to-${NEW_VERSION}/lib/"
           cp pubspec.yaml \
              "${APP_NAME}-${NEW_VERSION}/${APP_NAME}-only-updated-files-${PREVIOUS_VERSION}-to-${NEW_VERSION}/"
+      
 
       # 7️⃣ Create a zip archive
       - name: Create final zip
