@@ -9,7 +9,7 @@ on:
       - cc-update
 
 env:
-  APP_NAME: name-app
+  APP_NAME: escroc-app
   NEW_VERSION: v1.2.0          # 🔹 set the new version here
   PREVIOUS_VERSION: v1.1.0     # 🔹 set the previous version here
 
@@ -47,36 +47,36 @@ jobs:
       # 6️⃣ Prepare directory structure
       - name: Prepare folder structure
         run: |
-          mkdir -p "${env.APP_NAME}-${env.NEW_VERSION}/apk"
-          mkdir -p "${env.APP_NAME}-${env.NEW_VERSION}/${env.APP_NAME}-new-${env.NEW_VERSION}"
-          mkdir -p "${env.APP_NAME}-${env.NEW_VERSION}/${env.APP_NAME}-only-updated-files-${env.PREVIOUS_VERSION}-to-${env.NEW_VERSION}"
+          mkdir -p "${APP_NAME}-${NEW_VERSION}/apk"
+          mkdir -p "${APP_NAME}-${NEW_VERSION}/${APP_NAME}-new-${NEW_VERSION}"
+          mkdir -p "${APP_NAME}-${NEW_VERSION}/${APP_NAME}-only-updated-files-${PREVIOUS_VERSION}-to-${NEW_VERSION}"
 
           # copy built apks
           cp build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk \
-             "${env.APP_NAME}-${env.NEW_VERSION}/apk/${env.APP_NAME}-armeabi-v7a.apk"
+             "${APP_NAME}-${NEW_VERSION}/apk/${APP_NAME}-armeabi-v7a.apk"
           cp build/app/outputs/flutter-apk/app-arm64-v8a-release.apk \
-             "${env.APP_NAME}-${env.NEW_VERSION}/apk/${env.APP_NAME}-arm64-v8a.apk"
+             "${APP_NAME}-${NEW_VERSION}/apk/${APP_NAME}-arm64-v8a.apk"
 
           # copy full project (as it exists now)
           rsync -av --exclude '.git' ./ \
-             "${env.APP_NAME}-${env.NEW_VERSION}/${env.APP_NAME}-new-${env.NEW_VERSION}/"
+             "${APP_NAME}-${NEW_VERSION}/${APP_NAME}-new-${NEW_VERSION}/"
 
           # copy only updated files: lib & pubspec.yaml
-          mkdir -p "${env.APP_NAME}-${env.NEW_VERSION}/${env.APP_NAME}-only-updated-files-${env.PREVIOUS_VERSION}-to-${env.NEW_VERSION}/lib"
+          mkdir -p "${APP_NAME}-${NEW_VERSION}/${APP_NAME}-only-updated-files-${PREVIOUS_VERSION}-to-${NEW_VERSION}/lib"
           cp -r lib/* \
-             "${env.APP_NAME}-${env.NEW_VERSION}/${env.APP_NAME}-only-updated-files-${env.PREVIOUS_VERSION}-to-${env.NEW_VERSION}/lib/"
+             "${APP_NAME}-${NEW_VERSION}/${APP_NAME}-only-updated-files-${PREVIOUS_VERSION}-to-${NEW_VERSION}/lib/"
           cp pubspec.yaml \
-             "${env.APP_NAME}-${env.NEW_VERSION}/${env.APP_NAME}-only-updated-files-${env.PREVIOUS_VERSION}-to-${env.NEW_VERSION}/"
+             "${APP_NAME}-${NEW_VERSION}/${APP_NAME}-only-updated-files-${PREVIOUS_VERSION}-to-${NEW_VERSION}/"
 
       # 7️⃣ Create a zip archive
       - name: Create final zip
         run: |
-          zip -r "${env.APP_NAME}-${env.NEW_VERSION}.zip" "${env.APP_NAME}-${env.NEW_VERSION}"
+          zip -r "${APP_NAME}-${NEW_VERSION}.zip" "${APP_NAME}-${NEW_VERSION}"
 
       # 8️⃣ Upload as GitHub Action artifact for download
       - name: Upload zip as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: "${env.APP_NAME}-${env.NEW_VERSION}"
-          path: "${env.APP_NAME}-${env.NEW_VERSION}.zip"
+          name: "${APP_NAME}-${NEW_VERSION}"
+          path: "${APP_NAME}-${NEW_VERSION}.zip"
           retention-days: 7
