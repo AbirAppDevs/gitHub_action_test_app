@@ -58,7 +58,7 @@ jobs:
              "${APP_NAME}-${NEW_VERSION}/apk/${APP_NAME}-arm64-v8a.apk"
 
           # copy full project (exclude build and tool folders)
-          rsync -av --exclude '.git' --exclude 'build' --exclude '.dart_tool' --exclude '.gradle' ./ \
+          rsync -av --exclude '.git' --exclude 'build' --exclude '.dart_tool' --exclude '.gradle' --exclude "${APP_NAME}-${NEW_VERSION}" ./ \
              "${APP_NAME}-${NEW_VERSION}/${APP_NAME}-new-${NEW_VERSION}/"
 
           # copy only updated files: lib & pubspec.yaml
